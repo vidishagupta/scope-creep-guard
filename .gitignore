@@ -47,4 +47,6 @@ next-env.d.ts
 # temp build / recordings
 temp_video_build/
 demo/raw/
+demo/audio/
+demo/master_narration.mp3
 
