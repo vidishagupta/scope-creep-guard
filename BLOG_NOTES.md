@@ -1,0 +1,103 @@
+# Dev.to Hacktoberfest Post — Raw Notes & Brainstorming
+
+## 🎯 Theme & Project
+- **Challenge:** Dev.to Hacktoberfest Open-Source AI Challenge (Week 2: "Side Hustle")
+- **Project Name:** Scope-Creep Guard
+- **Tagline:** Local-first open-weight AI that stops freelancers from giving away thousands in unpaid "quick changes."
+- **Core AI:** Google Gemma (via local Ollama)
+
+---
+
+## 💡 The Real Problem: "Can you just do this one small thing?"
+Every freelancer knows this feeling:
+You agree to design a 3-page website. You deliver on time. Then the WhatsApp messages roll in:
+- *"Bhai, ek payment gateway bhi laga do na jaldi se?"*
+- *"Can you rank us #1 on Google by Friday?"*
+- *"Send over all the raw Figma component files for our intern!"*
+
+Freelancers usually say yes because:
+1. They fear losing the relationship or getting a bad review.
+2. They don't have the contract clauses memorized.
+3. Saying "No" feels confrontational and awkward.
+
+**The result?** Freelancers quietly bleed 20% to 35% of their billable hours doing free labor. For someone charging ₹1,000/hr ($50/hr), that is ₹50,000+ ($2,500+) in lost income every single month.
+
+---
+
+## 🛠️ Why Open-Source AI is Mandatory Here (Not a Gimmick)
+Why not just plug into OpenAI or Claude API?
+1. **Client NDA / Strict Contract Privacy:** Paste a client's non-disclosure agreement or sensitive client emails into a public cloud API, and you may violate privacy regulations or client NDAs. With local Gemma, contracts **never leave the user's laptop**.
+2. **Zero Running Costs:** Freelancers shouldn't pay monthly API subscriptions or per-token fees just to protect their own scope.
+3. **Works 100% Offline:** Review requests at 30,000 feet on an airplane or in a coffee shop with spotty Wi-Fi.
+4. **Open Weights & Model Freedom:** Swappable between `gemma3:1b` (runs smoothly on lightweight laptops) and `gemma3:4b`/`gemma3:12b` or fine-tuned legal models without vendor lock-in.
+
+---
+
+## 🏗️ Architecture & Technical Design
+```
+┌────────────────────────────────────────────────────────┐
+│                      Next.js App                       │
+│  ┌───────────────────────┐   ┌──────────────────────┐  │
+│  │   Interactive UI      │   │     Scope Ledger     │  │
+│  │  (Contract & Message) │   │ (LocalStorage Store) │  │
+│  └───────────┬───────────┘   └──────────────────────┘  │
+│              │                                         │
+│              ▼                                         │
+│    POST /api/analyze                                   │
+│              │                                         │
+│     Is Ollama Online?                                  │
+│     ├── YES ──► Ollama (http://localhost:11434)        │
+│     │            └── Model: Gemma 3 (format: json)     │
+│     │                 │                                │
+│     │                 ▼                                │
+│     │           Strict Schema Validator                │
+│     │           (Auto Repair Retry Loop)               │
+│     │                 │                                │
+│     └── NO  ──► Honest Demo Mode Fallback              │
+│                  (Pre-recorded Real Gemma Output)      │
+└────────────────────────────────────────────────────────┘
+```
+
+### 1. The Strict System Prompt
+The model is instructed with surgical precision:
+- Base verdict **ONLY** on the pasted contract.
+- Never invent clauses.
+- **Silence = UNCLEAR**. If the contract doesn't explicitly mention it, answer UNCLEAR rather than hallucinating an inclusion.
+- Output pure JSON adhering to `{ verdict, matched_clause, reason, estimated_hours, estimated_extra_charge, replies }`.
+
+### 2. The Auto-Repair Validation Pipeline
+Local LLMs sometimes wrap responses in markdown or conversational chatter.
+- Extract JSON substring between outermost braces.
+- Validate types, verdicts, and enforce business rules (e.g., `IN_SCOPE` must strictly have 0 hours and 0 charge).
+- If malformed, automatically issue a repair prompt once before surfacing any user error.
+- All 10 test scenarios covered in unit tests with 100% pass rate.
+
+### 3. The 3 Reply Tones + Mini Quote
+Freelancers don't just need a verdict; they need **words**:
+- **Polite:** Diplomatic, constructive, keeps the relationship warm.
+- **Firm:** Direct, citing the specific contract clause without apologizing.
+- **Friendly Upsell:** Enthusiastic, eager to build it as an add-on change order.
+- **1-Click Mini Quote:** Copy-paste ready change-order estimate with hours, billing rate, and terms.
+
+---
+
+## ⚡ Live Mode vs Demo Mode Decision
+- **Challenge:** Vercel serverless functions cannot run an 800MB - 3GB local LLM.
+- **Solution:** Never fake live status. The app runs a health-check against localhost:11434.
+  - When running locally, it shows a green **"Ollama Connected (Gemma)"** badge and performs 100% private local inference.
+  - When deployed on Vercel, it honestly shows **"Demo Mode"** with pre-recorded outputs generated by running the real Gemma model on sample contracts, plus a 1-click modal showing how to clone and run locally.
+
+---
+
+## 📈 Key Challenges Overcome
+1. **Device Memory on Integrated GPUs:**
+   When testing `gemma3:latest` (3.4GB) on an integrated Intel UHD GPU, Vulkan ran out of pinned device memory. Switching to `gemma3:1b` (806MB) achieved 92+ tokens/sec on prompt evaluation with zero memory faults and fast generation!
+2. **Next.js 16 App Router Turbopack Compatibility:**
+   Turbopack in Next.js 16 with Cache Components rejected `export const dynamic = 'force-dynamic'`. We adjusted the route segment configs to cleanly build with zero warnings.
+
+---
+
+## 🚀 What to Build Next
+1. **PDF / DOCX Drag-and-Drop:** Auto-extract contract clauses directly from client signed PDFs using WebAssembly.
+2. **Gmail / WhatsApp Web Extension:** Instant Chrome extension that highlights incoming messages in red/green right inside WhatsApp Web or Gmail.
+3. **Multi-Contract Freelance Workspace:** Switch between multiple active client contracts seamlessly.

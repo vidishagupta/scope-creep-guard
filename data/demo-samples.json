@@ -1,0 +1,41 @@
+{
+  "sample-in-scope": {
+    "verdict": "IN_SCOPE",
+    "matched_clause": "Includes up to two (2) consolidated rounds of textual edits, copy tweaks, and minor layout adjustments prior to final site handover.",
+    "reason": "The request asks for a team photo replacement and copy typo fix on the About Us page during Round 1 of revisions, which is fully covered under the 2 included revision rounds.",
+    "estimated_hours": 0,
+    "estimated_extra_charge": 0,
+    "replies": {
+      "polite": "Hi! Absolutely, I can update the team photo and fix that typo in the mission statement for you. Since this is your first round of revisions, it's completely covered under our contract. I'll have the updated draft ready for you by tomorrow!",
+      "firm": "Hi! Noted — I'll swap the team photo and correct the typo on the About Us page. As agreed in Clause 2, this counts as your first round of included revisions.",
+      "friendly_upsell": "Hey! Happy to swap the photo and fix the typo right away as part of our Round 1 revisions! While I'm updating that section, would you like me to also optimize the mobile responsiveness and image compression for faster loading?"
+    },
+    "is_demo": true
+  },
+  "sample-out-of-scope": {
+    "verdict": "OUT_OF_SCOPE",
+    "matched_clause": "E-commerce features, shopping cart, product catalog creation, and payment gateway integrations (e.g. Razorpay, Stripe) are strictly excluded. Search Engine Optimization (SEO) audits, backlink building, meta schema markup, and Google search ranking guarantees are strictly excluded.",
+    "reason": "The client is asking for Razorpay payment gateway integration, product listings, and Google SEO ranking optimization. Both e-commerce payment gateways and SEO campaigns are explicitly excluded under Clause 3.",
+    "estimated_hours": 18,
+    "estimated_extra_charge": 18000,
+    "replies": {
+      "polite": "Bhai, thank you for reaching out! The Razorpay payment gateway, product catalog setup, and comprehensive SEO are outside our current 3-page informational site agreement. I'd love to help you build this out — let me send over a quick change-order estimate (approx. 18 hours @ ₹1,000/hr) so we can add this seamlessly.",
+      "firm": "Hi! As specified in Clause 3 of our agreement, e-commerce payment gateways and SEO ranking services are strictly excluded from the current project scope. If you'd like to expand the project to include these features, I can prepare an addendum with an extra charge of ₹18,000.",
+      "friendly_upsell": "Great vision for the store! Setting up Razorpay and full SEO will really supercharge your sales. Since this is beyond our 3-page contract, I can bundle the payment integration, 25 product uploads, and on-page SEO into a dedicated Phase 2 add-on for just ₹18,000. Should I send over the change-order?"
+    },
+    "is_demo": true
+  },
+  "sample-unclear": {
+    "verdict": "UNCLEAR",
+    "matched_clause": "Raw design file handoffs (editable Figma boards, Photoshop PSDs, Illustrator vectors) are excluded unless negotiated under a separate design license.",
+    "reason": "The contract excludes editable Figma boards and vector assets unless negotiated under a separate design license. Handing over design systems and component libraries requires clarifying licensing rights and asset packaging scope.",
+    "estimated_hours": 3,
+    "estimated_extra_charge": 3000,
+    "replies": {
+      "polite": "Hi! Regarding the raw Figma files and component assets: our contract covers the live website build rather than source design system transfer. We can certainly bundle and package the design files with an asset license for a nominal fee of ₹3,000 (approx. 3 hours). Would that work for you?",
+      "firm": "Hello. Per Clause 3, editable design source files and Figma libraries are not included in the standard web build without a separate design license agreement. Let me know if you would like to purchase the source asset release.",
+      "friendly_upsell": "I would love to help your marketing intern hit the ground running! To hand over fully organized Figma components, design tokens, and vector exports, I can create an organized Freelance Brand Kit add-on for ₹3,000. Let me know and I'll package it up nicely!"
+    },
+    "is_demo": true
+  }
+}
