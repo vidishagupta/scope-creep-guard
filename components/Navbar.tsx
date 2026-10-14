@@ -10,6 +10,7 @@ interface NavbarProps {
   ollamaStatus: OllamaStatus | null;
   ledgerCount: number;
   onOpenGuide: () => void;
+  onOpenDemo: () => void;
 }
 
 export function Navbar({
@@ -18,6 +19,7 @@ export function Navbar({
   ollamaStatus,
   ledgerCount,
   onOpenGuide,
+  onOpenDemo,
 }: NavbarProps) {
   const isLive = ollamaStatus?.connected;
 
@@ -97,6 +99,17 @@ export function Navbar({
               <span className="sm:hidden">Demo</span>
             </button>
           )}
+
+          {/* 60s Demo Walkthrough Button */}
+          <button
+            onClick={onOpenDemo}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-purple-600/20 transition-all cursor-pointer"
+            title="Watch 60-Second AI Video Walkthrough"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span className="hidden md:inline">60s Demo</span>
+            <span className="md:hidden">Demo</span>
+          </button>
 
           {/* Guide link */}
           <button

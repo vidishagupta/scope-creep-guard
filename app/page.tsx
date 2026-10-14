@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { PrivacyBanner } from '@/components/PrivacyBanner';
 import { SetupGuideModal } from '@/components/SetupGuideModal';
+import { DemoWalkthroughModal } from '@/components/DemoWalkthroughModal';
 import { SampleLoader } from '@/components/SampleLoader';
 import { VerdictCard } from '@/components/VerdictCard';
 import { LedgerView } from '@/components/LedgerView';
@@ -34,6 +35,7 @@ const CURRENCIES = [
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'analyzer' | 'ledger'>('analyzer');
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [ollamaStatus, setOllamaStatus] = useState<OllamaStatus | null>(null);
 
   // Form State
@@ -136,6 +138,7 @@ export default function Home() {
         ollamaStatus={ollamaStatus}
         ledgerCount={ledgerEntries.length}
         onOpenGuide={() => setIsGuideOpen(true)}
+        onOpenDemo={() => setIsDemoModalOpen(true)}
       />
 
       {/* Mode / Privacy Banner */}
@@ -152,10 +155,19 @@ export default function Home() {
         ) : (
           <div className="space-y-8">
             {/* Hero Section */}
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
-                <Award className="w-3.5 h-3.5" />
-                <span>Dev.to Hacktoberfest Open-Source AI Challenge</span>
+            <div className="text-center max-w-2xl mx-auto space-y-3.5">
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Dev.to Hacktoberfest Open-Source AI Challenge</span>
+                </div>
+                <button
+                  onClick={() => setIsDemoModalOpen(true)}
+                  className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 text-pink-300 hover:text-white hover:border-pink-400 text-xs font-bold transition-all cursor-pointer shadow-sm"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-pink-400" />
+                  <span>Watch 60s AI Video Walkthrough</span>
+                </button>
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
                 Defend Your Scope. <br />
@@ -327,6 +339,12 @@ export default function Home() {
 
       {/* Setup Guide Modal */}
       <SetupGuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
+
+      {/* 60s AI Video Walkthrough Modal */}
+      <DemoWalkthroughModal
+        isOpen={isDemoModalOpen}
+        onClose={() => setIsDemoModalOpen(false)}
+      />
     </div>
   );
 }
