@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Lock, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 
 interface PrivacyBannerProps {
   isLive: boolean;

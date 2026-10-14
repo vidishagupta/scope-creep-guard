@@ -7,7 +7,6 @@ import {
   HelpCircle,
   Copy,
   Check,
-  FileText,
   DollarSign,
   Clock,
   Sparkles,

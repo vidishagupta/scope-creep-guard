@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Terminal, Check, Copy, Shield, Cpu, Lock, Sparkles } from 'lucide-react';
+import { X, Check, Copy, Shield, Cpu } from 'lucide-react';
 
 interface SetupGuideModalProps {
   isOpen: boolean;
@@ -91,7 +91,7 @@ export function SetupGuideModal({ isOpen, onClose }: SetupGuideModalProps) {
             <li><strong>Contract NDA Compliance:</strong> Client contracts and pricing terms never get uploaded to third-party cloud LLMs.</li>
             <li><strong>Zero Operating Cost:</strong> No recurring API bill, credit card, or token limits.</li>
             <li><strong>Reliable & Offline:</strong> Protects your freelance work even on flights, trains, or weak Wi-Fi.</li>
-            <li><strong>Open Weights:</strong> Powered by Google's open-weight Gemma model through Ollama.</li>
+            <li><strong>Open Weights:</strong> Powered by Google&apos;s open-weight Gemma model through Ollama.</li>
           </ul>
         </div>
 
@@ -100,7 +100,7 @@ export function SetupGuideModal({ isOpen, onClose }: SetupGuideModalProps) {
             onClick={onClose}
             className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md transition-colors"
           >
-            Got it, Let's Protect Scope!
+            Got it, Let&apos;s Protect Scope!
           </button>
         </div>
       </div>

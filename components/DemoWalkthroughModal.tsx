@@ -11,12 +11,9 @@ import {
   ShieldCheck,
   MessageSquare,
   AlertTriangle,
-  DollarSign,
-  Clock,
   Sparkles,
   Check,
   Copy,
-  Layers,
   ChevronRight,
   ChevronLeft,
 } from 'lucide-react';
@@ -119,15 +116,30 @@ export function DemoWalkthroughModal({ isOpen, onClose }: DemoWalkthroughModalPr
 
   const currentScene = DEMO_SCENES[currentSceneIdx];
 
-  // Stop speech when modal closes
-  useEffect(() => {
-    if (!isOpen) {
-      stopPlayback();
+  const stopPlayback = () => {
+    setIsPlaying(false);
+    setCurrentSceneIdx(0);
+    setClientAgreed(false);
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
     }
+    if (timerRef.current) clearTimeout(timerRef.current);
+  };
+
+  const handleClose = () => {
+    stopPlayback();
+    onClose();
+  };
+
+  // Stop speech when unmounting
+  useEffect(() => {
     return () => {
-      stopPlayback();
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [isOpen]);
+  }, []);
 
   const speakNarration = (text: string, onEndCallback?: () => void) => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
@@ -202,15 +214,6 @@ export function DemoWalkthroughModal({ isOpen, onClose }: DemoWalkthroughModalPr
     if (timerRef.current) clearTimeout(timerRef.current);
   };
 
-  const stopPlayback = () => {
-    setIsPlaying(false);
-    setCurrentSceneIdx(0);
-    setClientAgreed(false);
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    if (timerRef.current) clearTimeout(timerRef.current);
-  };
 
   const toggleMute = () => {
     if (!isMuted) {
@@ -270,7 +273,7 @@ export function DemoWalkthroughModal({ isOpen, onClose }: DemoWalkthroughModalPr
               {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
             </button>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />

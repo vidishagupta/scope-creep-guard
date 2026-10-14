@@ -14,11 +14,9 @@ import {
   Sparkles,
   FileText,
   MessageSquare,
-  DollarSign,
   ShieldCheck,
   AlertCircle,
   Loader2,
-  RefreshCw,
   Award,
   Zap,
 } from 'lucide-react';
@@ -50,30 +48,39 @@ export default function Home() {
   const [analysisResult, setAnalysisResult] = useState<ScopeAnalysisResult | null>(null);
 
   // Ledger State
-  const [ledgerEntries, setLedgerEntries] = useState<LedgerEntry[]>([]);
+  const [ledgerEntries, setLedgerEntries] = useState<LedgerEntry[]>(() => {
+    if (typeof window !== 'undefined') {
+      return getLedgerEntries();
+    }
+    return [];
+  });
 
   // Health check on mount
   useEffect(() => {
-    checkHealth();
-    setLedgerEntries(getLedgerEntries());
-  }, []);
-
-  const checkHealth = async () => {
-    try {
-      const res = await fetch('/api/health');
-      if (res.ok) {
-        const data: OllamaStatus = await res.json();
-        setOllamaStatus(data);
+    let ignore = false;
+    async function loadHealth() {
+      try {
+        const res = await fetch('/api/health');
+        if (res.ok) {
+          const data: OllamaStatus = await res.json();
+          if (!ignore) setOllamaStatus(data);
+        }
+      } catch {
+        if (!ignore) {
+          setOllamaStatus({
+            connected: false,
+            model: '',
+            availableModels: [],
+            mode: 'demo',
+          });
+        }
       }
-    } catch {
-      setOllamaStatus({
-        connected: false,
-        model: '',
-        availableModels: [],
-        mode: 'demo',
-      });
     }
-  };
+    loadHealth();
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   const handleSelectSample = (sampleContract: string, sampleRequest: string, rate: number = 1000) => {
     setContract(sampleContract);
@@ -120,8 +127,9 @@ export default function Home() {
       // Save to ledger
       saveLedgerEntry(data, clientRequest, contract, hourlyRate, currency);
       setLedgerEntries(getLedgerEntries());
-    } catch (err: any) {
-      setAnalysisError(err?.message || 'Failed to connect to analysis engine.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to connect to analysis engine.';
+      setAnalysisError(message);
     } finally {
       setIsAnalyzing(false);
     }

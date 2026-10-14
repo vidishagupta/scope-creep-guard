@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
         }
 
         const ollamaData = await ollamaRes.json();
-        let rawResponse = ollamaData.response;
+        const rawResponse = ollamaData.response;
 
         let validation = parseAndValidateLLMOutput(rawResponse, rate);
 
@@ -115,9 +115,10 @@ export async function POST(req: NextRequest) {
             { status: 502 }
           );
         }
-      } catch (ollamaErr: any) {
+      } catch (ollamaErr: unknown) {
         // Fall back to demo mode if inference fails
-        console.warn('Live inference failed, falling back to demo mode:', ollamaErr.message);
+        const errMsg = ollamaErr instanceof Error ? ollamaErr.message : String(ollamaErr);
+        console.warn('Live inference failed, falling back to demo mode:', errMsg);
       }
     }
 
@@ -165,9 +166,10 @@ export async function POST(req: NextRequest) {
     };
 
     return NextResponse.json(demoResult);
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'An unexpected error occurred during analysis.';
     return NextResponse.json(
-      { error: err?.message || 'An unexpected error occurred during analysis.' },
+      { error: message },
       { status: 500 }
     );
   }

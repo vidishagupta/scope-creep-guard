@@ -5,16 +5,12 @@ import {
   Layers,
   DollarSign,
   AlertTriangle,
-  CheckCircle2,
   Trash2,
   Download,
   Search,
   Check,
   Copy,
-  ArrowUpRight,
   Sparkles,
-  HelpCircle,
-  Clock,
 } from 'lucide-react';
 import { LedgerEntry } from '@/lib/types';
 import { updateEntryAgreedStatus, deleteLedgerEntry, clearAllLedgerEntries } from '@/lib/storage';

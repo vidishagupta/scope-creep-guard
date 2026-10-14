@@ -16,7 +16,9 @@ export async function GET() {
 
     if (res.ok) {
       const data = await res.json();
-      const models = Array.isArray(data.models) ? data.models.map((m: any) => m.name) : [];
+      const models = Array.isArray(data.models)
+        ? data.models.map((m: { name?: string }) => m.name || '').filter(Boolean)
+        : [];
       return NextResponse.json({
         connected: true,
         model: configuredModel,

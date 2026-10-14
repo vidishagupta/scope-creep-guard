@@ -78,7 +78,7 @@ Please fix the error and output ONLY STRICT VALID JSON according to this structu
   "matched_clause": string or null,
   "reason": "1-2 simple sentences",
   "estimated_hours": number,
-  "estimated_extra_charge": number,
+  "estimated_extra_charge": number (calculated as estimated_hours * ${hourlyRate} in ${currency}),
   "replies": {
     "polite": "string",
     "firm": "string",

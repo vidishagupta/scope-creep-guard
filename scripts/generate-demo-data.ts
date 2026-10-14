@@ -34,7 +34,7 @@ async function queryOllama(prompt: string, systemPrompt?: string) {
 
 async function run() {
   console.log(`Connecting to Ollama at ${OLLAMA_URL} with model ${MODEL}...`);
-  const demoOutputs: Record<string, any> = {};
+  const demoOutputs: Record<string, unknown> = {};
 
   for (const item of SAMPLE_CASES) {
     console.log(`\nAnalyzing sample: ${item.id} (${item.title})...`);
