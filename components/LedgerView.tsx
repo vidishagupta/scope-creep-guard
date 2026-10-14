@@ -307,7 +307,7 @@ Terms: Work begins upon written approval.
                         }`}
                       >
                         <Check className="w-3.5 h-3.5" />
-                        <span>{item.agreed_to_pay ? 'Agreed to Pay ✓' : 'Mark as Agreed'}</span>
+                        <span>{item.agreed_to_pay ? 'Client Agreed to Pay ✓' : 'Client Agreed to Pay'}</span>
                       </button>
                     )}
                   </div>

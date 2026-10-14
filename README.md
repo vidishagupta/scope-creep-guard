@@ -13,6 +13,15 @@
 ## 🔗 Quick Links
 - **Live Production URL:** [https://week-iota.vercel.app](https://week-iota.vercel.app)
 - **GitHub Repository:** [https://github.com/vidishagupta/scope-creep-guard](https://github.com/vidishagupta/scope-creep-guard)
+- **Demo Video (MP4):** [demo/scope-creep-guard-demo.mp4](demo/scope-creep-guard-demo.mp4)
+
+---
+
+## 🎬 Demo Preview
+
+![Scope-Creep Guard Demo](demo/preview.gif)
+
+> 📹 **[Watch the Full 60-Second Walkthrough Video (MP4)](demo/scope-creep-guard-demo.mp4)** — AI detects Hinglish scope creep, quotes ₹12,000 extra work, copies firm pushback, and updates recovered revenue in the Scope Ledger.
 
 ---
 
@@ -142,6 +151,24 @@ npm test
 - **Icons:** [Lucide React](https://lucide.dev)
 - **State & Storage:** Browser `localStorage` (Scope Ledger)
 - **Deployment:** [Vercel](https://vercel.com) (Production)
+
+---
+
+## 🎥 Record the demo again
+
+To record the 60-second browser walkthrough video and regenerate the MP4 and preview GIF locally:
+
+```bash
+# 1. Ensure dev server is running
+npm run dev
+
+# 2. Run the automated Playwright recording script
+npx tsx scripts/record-demo.ts
+```
+
+This will automatically launch Playwright Chromium, execute all demo steps with natural reading pauses and captions, and export:
+- `demo/scope-creep-guard-demo.mp4` (H.264 video, under 25 MB)
+- `demo/preview.gif` (10-second looping preview, under 5 MB)
 
 ---
 
